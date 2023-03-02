@@ -79,7 +79,7 @@ func NewSocket(endPoint *url.URL) *Socket {
 func (s *Socket) Connect() error {
 	// Add the 'vsn' query parameter to the connection url
 	q := s.EndPoint.Query()
-	q.Set("vsn", s.Serializer.vsn())
+	q.Set("vsn", s.Serializer.Vsn())
 	s.EndPoint.RawQuery = q.Encode()
 
 	s.Logger.Printf(LogInfo, "socket", "connecting to %v\n", s.EndPoint)
@@ -148,7 +148,7 @@ func (s *Socket) Push(topic string, event string, payload any, joinRef Ref) (Ref
 }
 
 func (s *Socket) PushMessage(msg Message) error {
-	data, err := s.Serializer.encode(&msg)
+	data, err := s.Serializer.Encode(&msg)
 	if err != nil {
 		return err
 	}
@@ -304,7 +304,7 @@ func (s *Socket) onReadError(err error) {
 }
 
 func (s *Socket) onConnMessage(data []byte) {
-	msg, err := s.Serializer.decode(data)
+	msg, err := s.Serializer.Decode(data)
 	if err != nil {
 		s.Logger.Println(LogError, "socket", "could not decode data to Message:", err)
 		return
