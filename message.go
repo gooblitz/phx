@@ -25,7 +25,6 @@ type Message struct {
 	// Payload is any arbitrary data attached to the message.
 	Payload any
 
-	PayloadJson json.RawMessage
 }
 
 func (m Message) MarshalJSON() ([]byte, error) {
